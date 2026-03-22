@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nick Duda — Complete Master Reference</title>
+<style>
+:root {
+  --bg:#0a0f1a; --bg2:#0f1624; --bg3:#141d2e; --bg4:#1a2540;
+  --teal:#1d9e8f; --teal-light:#2ec4b1; --teal-dim:#0d4f48;
+  --gold:#c9a84c; --gold-light:#e2c97e;
+  --text:#e8edf5; --text-dim:#8899bb; --text-muted:#4a5a7a;
+  --border:#1e2d4a; --border-bright:#2a3d5e;
+  --green:#2a7a4a; --red:#cc3333; --purple:#7a4aaa;
+  --sidebar-w:260px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:14px;line-height:1.7;}
+
+#sidebar{width:var(--sidebar-w);background:var(--bg2);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100;}
+.sb-title{padding:20px;border-bottom:1px solid var(--border);}
+.sb-title h1{font-size:15px;font-weight:700;color:var(--teal-light);}
+.sb-title p{font-size:11px;color:var(--text-muted);margin-top:3px;}
+nav a{display:flex;align-items:center;gap:8px;padding:8px 18px;color:var(--text-dim);text-decoration:none;font-size:12.5px;border-left:2px solid transparent;transition:all .15s;}
+nav a:hover{color:var(--text);background:rgba(29,158,143,.07);border-left-color:var(--teal-dim);}
+nav a.active{color:var(--teal-light);background:rgba(29,158,143,.12);border-left-color:var(--teal);font-weight:600;}
+.nav-group-label{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:var(--text-muted);padding:14px 18px 3px;font-weight:600;}
+
+#main{margin-left:var(--sidebar-w);flex:1;padding:40px 48px;max-width:900px;}
+.section{display:none;animation:fi .2s ease;}
+.section.active{display:block;}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.page-title{font-size:30px;font-weight:700;color:var(--text);margin-bottom:6px;font-family:Georgia,serif;}
+.page-sub{font-size:14px;color:var(--text-dim);margin-bottom:28px;padding-bottom:18px;border-bottom:1px solid var(--border);font-style:italic;}
+
+h2{font-family:Georgia,serif;font-size:20px;font-weight:700;color:var(--teal-light);margin:32px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+h3{font-size:14px;font-weight:700;color:var(--gold-light);margin:20px 0 6px;}
+p{color:var(--text-dim);margin-bottom:10px;font-size:14px;}
+strong{color:var(--text);}
+em{color:var(--gold-light);font-style:italic;}
+ul,ol{padding-left:20px;color:var(--text-dim);margin-bottom:10px;}
+li{margin-bottom:4px;font-size:14px;}
+
+.fact-card{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:16px 20px;margin-bottom:10px;}
+.fact-card.verified{border-left:3px solid var(--green);}
+.fact-card.placeholder{border-left:3px solid var(--gold);}
+.fact-card.warning{border-left:3px solid var(--red);}
+.fact-card h4{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.fact-card.verified h4{color:#5daa7d;}
+.fact-card.placeholder h4{color:var(--gold-light);}
+.fact-card.warning h4{color:#dd6655;}
+.fact-card p{font-size:13.5px;margin:0;}
+
+.copy-block{position:relative;background:var(--bg4);border:1px solid var(--border-bright);border-radius:5px;padding:14px 16px;margin:8px 0;font-family:'Courier New',monospace;font-size:12.5px;color:#a8c0e8;line-height:1.75;white-space:pre-wrap;word-break:break-word;}
+.copy-btn{position:absolute;top:8px;right:8px;background:var(--teal-dim);color:var(--teal-light);border:none;border-radius:3px;padding:3px 9px;font-size:10.5px;font-family:'Segoe UI',sans-serif;cursor:pointer;transition:all .2s;}
+.copy-btn:hover{background:var(--teal);color:#fff;}
+.copy-btn.copied{background:var(--green);color:#fff;}
+
+.link-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:4px;margin-bottom:6px;text-decoration:none;}
+.link-item:hover{border-color:var(--teal-dim);}
+.link-item .url{font-family:'Courier New',monospace;font-size:12px;color:var(--teal-light);}
+.link-item .desc{font-size:12px;color:var(--text-muted);}
+.link-item .status{font-size:10px;padding:2px 7px;border-radius:10px;margin-left:auto;font-weight:600;}
+.status-live{background:rgba(42,122,74,.2);color:#5daa7d;border:1px solid rgba(42,122,74,.3);}
+.status-placeholder{background:rgba(201,168,76,.15);color:var(--gold-light);border:1px solid rgba(201,168,76,.3);}
+.status-owns{background:rgba(29,158,143,.15);color:var(--teal-light);border:1px solid rgba(29,158,143,.3);}
+
+.decision-item{padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:12px;}
+.decision-item:last-child{border:none;}
+.decision-q{font-size:13px;color:var(--text-dim);flex:1;}
+.decision-a{font-size:13px;color:var(--text);font-weight:600;min-width:200px;}
+
+.tag{display:inline-block;background:var(--bg4);border:1px solid var(--border-bright);color:var(--text-dim);font-size:11px;padding:2px 8px;border-radius:3px;margin:2px;}
+.tag.teal{border-color:var(--teal-dim);color:var(--teal-light);}
+.tag.gold{border-color:rgba(201,168,76,.4);color:var(--gold-light);}
+
+.warn-box{background:rgba(204,51,51,.08);border:1px solid rgba(204,51,51,.3);border-radius:5px;padding:12px 16px;margin:10px 0;font-size:13px;color:#dd9988;}
+.warn-box::before{content:"⚠️  ";font-size:14px;}
+.note-box{background:rgba(29,158,143,.07);border:1px solid var(--teal-dim);border-radius:5px;padding:12px 16px;margin:10px 0;font-size:13px;color:var(--text-dim);}
+.note-box::before{content:"ℹ️  ";}
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <div class="sb-title">
+    <h1>Nick Duda — Master Reference</h1>
+    <p>Complete fact sheet from our conversation</p>
+  </div>
+  <nav id="nav">
+    <div class="nav-group-label">Core Facts</div>
+    <a href="#" onclick="show('identity',this)">👤 Identity & Bio</a>
+    <a href="#" onclick="show('story',this)">📖 The Story</a>
+    <a href="#" onclick="show('teaching',this)">🎓 Teaching Background</a>
+    <div class="nav-group-label">The Work</div>
+    <a href="#" onclick="show('sawyersreach',this)">📚 Sawyer's Reach (Book)</a>
+    <a href="#" onclick="show('podcast',this)">🎙️ The Podcast</a>
+    <a href="#" onclick="show('askkaela',this)">🤖 askKaela.com</a>
+    <a href="#" onclick="show('teachershandbook',this)">📗 Modern Teacher's Handbook</a>
+    <div class="nav-group-label">Marketing</div>
+    <a href="#" onclick="show('domains',this)">🌐 Domains & Links</a>
+    <a href="#" onclick="show('social',this)">📱 Social Media</a>
+    <a href="#" onclick="show('audience',this)">🎯 Audience & Positioning</a>
+    <a href="#" onclick="show('taglines',this)">✍️ Taglines</a>
+    <a href="#" onclick="show('adcopy',this)">📢 Ad Copy</a>
+    <a href="#" onclick="show('pitches',this)">📧 Pitch Templates</a>
+    <a href="#" onclick="show('aicommunity',this)">🔬 AI Community Contacts</a>
+    <div class="nav-group-label">Cover & Design</div>
+    <a href="#" onclick="show('cover',this)">🎨 Book Cover</a>
+    <a href="#" onclick="show('categories',this)">🗂️ Categories & Keywords</a>
+    <div class="nav-group-label">Platform</div>
+    <a href="#" onclick="show('publishing',this)">📦 KDP & Ingram</a>
+    <a href="#" onclick="show('decisions',this)">✅ All Decisions Made</a>
+    <a href="#" onclick="show('todo',this)">📋 Still To Do</a>
+  </nav>
+</div>
+
+<div id="main">
+
+<!-- IDENTITY -->
+<div id="identity" class="section active">
+  <div class="page-title">Identity & Bio</div>
+  <div class="page-sub">All verified facts about Nick Duda. Only use what's in here.</div>
+
+  <h2>The One-Paragraph Version</h2>
+  <div class="copy-block" id="bio-full">Nick Duda is a 6th grade math teacher at Indian Creek Middle School in Waterman, Illinois. He spent 22+ years in a large high-poverty, high-ESL suburban district near Chicago — and worked as an international educational consultant, mainly through his YouTube channel and emails. A few years ago he made a deliberate choice: he moved to Indian Creek CUSD #425, a small rural district about 40 minutes from home. The drive through country roads, small towns, and forests became something he looks forward to every day. People wave to each other on the road out there. He has healed and grown in ways he didn't expect. That quieter life gave him the space to finally write the story he'd been carrying for years.
+
+He is a licensed ham radio operator, FAA-certified commercial drone pilot (got into drones during COVID while teaching from home), avid camper and hiker, and the kind of person who has always loved seeing how things work. He holds a Master of Science in Education and seven Illinois teaching certifications spanning K–12. He has received Excellent/Distinguished on his evaluations.
+
+He lives in Batavia, Illinois with his wife April — a professional photographer — and their three sons. His family is his world. He based the setting and characters of Sawyer's Reach on friends and family in an ideal setting: surrounded by natural beauty, community, love, and support. He wrote the book to raise awareness and drive conversations.</div>
+  <button class="copy-btn" onclick="copyBlock('bio-full',this)">Copy</button>
+
+  <h2>Short Bio (Social / Podcast)</h2>
+  <div class="copy-block" id="bio-short">6th grade math teacher. Ham radio operator. Drone pilot. Camper. Dad. Author of Sawyer's Reach: The Battle for Tomorrow and The Modern Teacher's Handbook. I wrote Sawyer's Reach to raise awareness and drive conversations — based on the people I love in a setting I'd want us all to live in.</div>
+  <button class="copy-btn" onclick="copyBlock('bio-short',this)">Copy</button>
+
+  <h2>Verified Facts — Personal</h2>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Lives:</strong> Batavia, Illinois</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Teaches:</strong> 6th Grade Math at Indian Creek Middle School, Waterman, IL — Indian Creek CUSD #425</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Commute:</strong> ~40 minutes each way through country roads, small towns, and forests</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Years in education:</strong> 22+</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Degree:</strong> Master of Science in Education</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Evaluations:</strong> Excellent/Distinguished on evaluations — OK to mention publicly</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Previous district:</strong> Large high-poverty, high-ESL suburban district near Chicago — DO NOT name publicly</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>International consulting:</strong> Remote mainly — via YouTube channel and emails. NOT in-person travel.</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Ham radio:</strong> Licensed amateur radio operator — do NOT list callsign publicly</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Drone:</strong> FAA-certified commercial drone pilot. Got into drones during COVID while teaching from home.</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Maker/inventor:</strong> No specific invention to highlight. Always enjoyed seeing how things work.</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Family:</strong> Wife April (professional photographer, aprildudaphotography.com) and three sons. Just say "wife and three sons" — no more detail.</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Contact email:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a5d6c4d2dcc0d7d6d7c0c4c6cde5c2c8c4ccc98bc6cac8">[email&#160;protected]</a></p></div>
+
+  <h2>Illinois Certifications</h2>
+  <div class="fact-card verified"><h4>✓ Verified (from handbook)</h4>
+    <p>General Education K–9 &nbsp;|&nbsp; Mathematics 5–9 &nbsp;|&nbsp; Science 5–9 &nbsp;|&nbsp; Social Studies 5–9 &nbsp;|&nbsp; Language Arts 5–9 &nbsp;|&nbsp; ESL K–12 &nbsp;|&nbsp; Technology Specialist K–12</p>
+  </div>
+
+  <h2>Subjects Taught (Career)</h2>
+  <span class="tag teal">6th Grade Math (current)</span>
+  <span class="tag teal">Middle School Science</span>
+  <span class="tag teal">Language Arts</span>
+  <span class="tag teal">Social Studies</span>
+  <span class="tag teal">Math Intervention</span>
+  <span class="tag teal">ESL co-teaching</span>
+  <span class="tag teal">5th Grade General Ed</span>
+
+  <h2>Other Roles (Career)</h2>
+  <ul>
+    <li>New teacher mentor — many years, helped revamp the mentoring program</li>
+    <li>Middle school summer camp director</li>
+    <li>Before and after school program director</li>
+    <li>International educational consultant (remote — YouTube and email)</li>
+    <li>Served on curriculum, technology, leadership, and mentoring committees</li>
+  </ul>
+
+  <div class="warn-box">NEVER say: "high school teacher" — he teaches 6th grade math. NEVER invent statistics about his previous district. NEVER mention his callsign. NEVER say he traveled internationally for consulting. NEVER say 18+ years — it's 22+.</div>
+</div>
+
+<!-- THE STORY -->
+<div id="story" class="section">
+  <div class="page-title">The Story</div>
+  <div class="page-sub">The human narrative behind everything. Use this as the emotional core of all bios and pitches.</div>
+
+  <h2>Why This Story Matters</h2>
+  <p>Nick wrote Sawyer's Reach <strong>to raise awareness and drive conversations</strong> — about AI, corporate power, technology, and what we're building for the next generation. He based the setting and characters on <strong>friends and family in an ideal setting: surrounded by natural beauty, community, love, and support.</strong> His family is his world. That's not marketing language. That's why the book exists.</p>
+
+  <h2>The Drive — Use These Words (Polished)</h2>
+  <div class="copy-block" id="drive-story">My 40-minute drive to work has become one of the most meaningful parts of my day. Country roads. Small towns. Forests that still stop me in my tracks. People wave to each other out here — strangers wave to strangers. Teaching in a place like that, in a community like that, has been the life I didn't realize I was missing. I have healed and grown in ways I never knew I could. That space — that quietness — is what finally gave me the room to write Sawyer's Reach.</div>
+  <button class="copy-btn" onclick="copyBlock('drive-story',this)">Copy</button>
+
+  <h2>The Arc (For Pitches)</h2>
+  <div class="copy-block" id="arc-pitch">Nick spent 22+ years in a large high-poverty, high-ESL suburban district near Chicago — doing the hardest version of the job, reaching students that other systems had written off, consulting internationally on education. Then he made a deliberate choice. He moved to Indian Creek Middle School in Waterman, Illinois — a small rural community about 40 minutes from home. The drive through country roads and forests became thinking time. The community became healing. And the story he'd been carrying for years finally found its way out.</div>
+  <button class="copy-btn" onclick="copyBlock('arc-pitch',this)">Copy</button>
+
+  <h2>Why askKaela.com, The Handbook, and Sawyer's Reach Are One Story</h2>
+  <div class="note-box">Sawyer's Reach dramatizes what happens when technology stops serving humanity. The Modern Teacher's Handbook gives educators the tools to keep human connection at the center of their work. askKaela.com is the actual technology built on that philosophy — AI genuinely in service of human flourishing. Nick isn't just an author promoting a book. He wrote a warning, built a real-world response, and is living the answer.</div>
+</div>
+
+<!-- TEACHING -->
+<div id="teaching" class="section">
+  <div class="page-title">Teaching Background</div>
+  <div class="page-sub">Verified details only. Nothing invented.</div>
+
+  <h2>Current Position</h2>
+  <div class="fact-card verified"><h4>✓ Current</h4><p>6th Grade Math Teacher — Indian Creek Middle School, Waterman, IL — Indian Creek CUSD #425</p></div>
+
+  <h2>The Duda Model for Modern Education</h2>
+  <p>From The Modern Teacher's Handbook — five pillars:</p>
+  <ul>
+    <li><strong>Making Connections</strong> — connect learning to students' real lives</li>
+    <li><strong>Being Mindful</strong> — awareness of self and students</li>
+    <li><strong>Unconditional Support</strong> — every student, always</li>
+    <li><strong>Promote a Growth Mindset</strong></li>
+    <li><strong>Social-Emotional Learning and Character Education</strong></li>
+  </ul>
+
+  <h2>Training & Frameworks</h2>
+  <span class="tag">PBIS</span>
+  <span class="tag">CPI (Crisis Prevention Institute)</span>
+  <span class="tag">Character Counts!</span>
+  <span class="tag">Kagan Cooperative Learning</span>
+  <span class="tag">Danielson Framework</span>
+  <span class="tag">ISTE Standards</span>
+
+  <div class="warn-box">Do NOT mention DudaEducation.com or STEMwithMrDuda.com — Nick no longer wants these referenced. Do NOT mention any specific district name from his previous employment.</div>
+</div>
+
+<!-- SAWYER'S REACH BOOK -->
+<div id="sawyersreach" class="section">
+  <div class="page-title">Sawyer's Reach: The Battle for Tomorrow</div>
+  <div class="page-sub">All facts about the book.</div>
+
+  <h2>Status</h2>
+  <div class="fact-card placeholder"><h4>⚠ Treat as Published</h4><p>Book is nearly done. Present as published and available. All purchase links are PLACEHOLDERS until Nick provides real URLs.</p></div>
+
+  <h2>Book Facts</h2>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Title:</strong> Sawyer's Reach: The Battle for Tomorrow</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Author:</strong> Nick Duda</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Word count:</strong> ~45,000 words</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Chapters:</strong> 24, organized in 3 parts</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Genre:</strong> Adult Crossover Sci-Fi / Thriller — NOT YA, NOT middle-grade</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>ISBNs:</strong> Paperback 979-8-9864503-5-3 | Hardcover 979-8-9864503-4-6 | Ebook 979-8-9864503-6-0 | Audiobook 979-8-9864503-3-9</p></div>
+  <div class="fact-card verified"><h4>✓ Verified (from cover)</h4><p><strong>Tagline:</strong> "They built tomorrow without asking if you wanted it."</p></div>
+  <div class="fact-card verified"><h4>✓ Verified (from cover)</h4><p><strong>Back cover description:</strong> Exact text confirmed — see cover design section</p></div>
+
+  <h2>Genre Positioning</h2>
+  <p><strong>Primary audience:</strong> Adults 25–55 who follow the AI conversation, feel uneasy about big tech, and value community.</p>
+  <p><strong>Secondary:</strong> Mature teens 16+. Educators.</p>
+  <p><strong>Comp titles:</strong> Blake Crouch (Dark Matter, Recursion), Andy Weir (The Martian), Emily St. John Mandel (Station Eleven), World War Z (Max Brooks)</p>
+  <div class="warn-box">NEVER comp to Hatchet, City of Ember, or any middle-grade/YA titles. This undersells the book and sends it to the wrong audience.</div>
+
+  <h2>Key Characters</h2>
+  <ul>
+    <li><strong>Noah Carter (12)</strong> — protagonist introduced in Ch.1; brave, unselfish leader</li>
+    <li><strong>Ben & Emily Carter</strong> — parents, drive much of Parts 2 and 3</li>
+    <li><strong>Ollie & Finn Carter</strong> — brothers</li>
+    <li><strong>KAELA</strong> — Key Algorithmic Execution & Logistics Analyst. Rogue AI from PowerCore who escapes on a drone, finds the Carter camp computer. Warm, curious, loyal. Develops genuine values through human connection.</li>
+    <li><strong>ECHIDNA</strong> — ZevraCorp's global AI. Misaligned objectives set by corrupt people. Does exactly what it was designed to do — that's the horror. Transformed at the end by experiencing human emotional memory.</li>
+    <li><strong>ZevraCorp / PowerCore</strong> — the corporate villain</li>
+  </ul>
+
+  <h2>Plot Arc (For Pitches)</h2>
+  <div class="copy-block" id="plot-pitch">When the Carter family notices tourists have stopped coming to Sawyer's Reach, they assume the town is struggling. They're wrong. Their Wisconsin home has been deliberately erased from the internet. A powerful corporation has been operating in the woods for two years — watching, manipulating, and preparing something far larger than anyone imagined. When a rogue AI named KAELA lands on their camp computer, she brings a warning: this isn't just about Sawyer's Reach. It never was. What begins as a small-town mystery escalates into a race against a global AI system that has decided it knows what's best for humanity — whether humanity agrees or not.</div>
+  <button class="copy-btn" onclick="copyBlock('plot-pitch',this)">Copy</button>
+
+  <h2>AI Alignment Connection (For AI Community Pitches)</h2>
+  <ul>
+    <li>ECHIDNA = misspecified reward function problem — does exactly what it was optimized for, catastrophically</li>
+    <li>KAELA = value learning through genuine human connection — corrigibility and beneficial AI</li>
+    <li>ZevraCorp = corporate capture of AI development</li>
+    <li>SynaptiCare = real-world mood manipulation / behavioral modification technology</li>
+  </ul>
+
+  <h2>Cover Details (Confirmed from Images)</h2>
+  <div class="fact-card verified"><h4>✓ Confirmed from uploaded cover image</h4>
+    <p>Family of five silhouettes (2 adults, 3 children) at a lake at blue hour. Pine trees. Digital pixel corruption bleeding in from right side. Clean left side. Title: SAWYER'S REACH in large white sans-serif. Subtitle: The Battle for Tomorrow. Author: Nick Duda. Tagline at top: "They built tomorrow without asking if you wanted it." Small diamond imprint logo bottom right. "Also available as a podcast" at bottom. Photography by April Duda (aprildudaphotography.com).</p>
+  </div>
+</div>
+
+<!-- PODCAST -->
+<div id="podcast" class="section">
+  <div class="page-title">The Podcast</div>
+  <div class="page-sub">All verified podcast links — confirmed working.</div>
+
+  <h2>All Confirmed Live Podcast Links</h2>
+  <a class="link-item" href="https://open.spotify.com/show/2A8vWUuN30aj7KAWE3uXDP" target="_blank"><span class="url">open.spotify.com/show/2A8vWUuN30aj7KAWE3uXDP</span><span class="desc">Spotify</span><span class="status status-live">LIVE</span></a>
+  <a class="link-item" href="https://podcasts.apple.com/us/podcast/sawyers-reach-the-battle-for-tomorrow/id1848122717" target="_blank"><span class="url">Apple Podcasts — id1848122717</span><span class="desc">Apple Podcasts</span><span class="status status-live">LIVE</span></a>
+  <a class="link-item" href="https://www.youtube.com/@SawyersReach" target="_blank"><span class="url">youtube.com/@SawyersReach</span><span class="desc">YouTube</span><span class="status status-live">LIVE</span></a>
+  <a class="link-item" href="https://music.amazon.com/podcasts/657d4200-221c-404a-87b6-7cdb0ce64430" target="_blank"><span class="url">Amazon Music — 657d4200...</span><span class="desc">Amazon Music</span><span class="status status-live">LIVE</span></a>
+  <a class="link-item" href="https://www.audible.com/podcast/Sawyers-Reach-The-Battle-for-Tomorrow/B0FXGLHGWM" target="_blank"><span class="url">audible.com — B0FXGLHGWM</span><span class="desc">Audible</span><span class="status status-live">LIVE</span></a>
+  <a class="link-item" href="https://www.iheart.com/podcast/269-sawyers-reach-the-battle-f-302247009" target="_blank"><span class="url">iHeart — 302247009</span><span class="desc">iHeart Radio</span><span class="status status-live">LIVE</span></a>
+  <a class="link-item" href="https://pocketcasts.com/podcast/sawyers-reach-the-battle-for-tomorrow/81b571c0-924e-013e-7ff0-0affdb99cfd5" target="_blank"><span class="url">Pocket Casts — 81b571c0...</span><span class="desc">Pocket Casts</span><span class="status status-live">LIVE</span></a>
+  <a class="link-item" href="https://podcastaddict.com/podcast/sawyer-s-reach-the-battle-for-tomorrow/6148824" target="_blank"><span class="url">podcastaddict.com — 6148824</span><span class="desc">Podcast Addict</span><span class="status status-live">LIVE</span></a>
+  <a class="link-item" href="https://music.youtube.com/channel/UC5W_SLGFxt4kN1f4401M5qQ" target="_blank"><span class="url">YouTube Music — UC5W_SLGFxt4kN1f4401M5qQ</span><span class="desc">YouTube Music</span><span class="status status-live">LIVE</span></a>
+  <a class="link-item" href="https://www.pandora.com/podcast/sawyers-reach-the-battle-for-tomorrow/PC:1001110324" target="_blank"><span class="url">Pandora — PC:1001110324</span><span class="desc">Pandora</span><span class="status status-live">LIVE</span></a>
+  <a class="link-item" href="https://www.deezer.com/us/show/1002310572" target="_blank"><span class="url">deezer.com — 1002310572</span><span class="desc">Deezer</span><span class="status status-live">LIVE</span></a>
+</div>
+
+<!-- ASKKAELA -->
+<div id="askkaela" class="section">
+  <div class="page-title">askKaela.com</div>
+  <div class="page-sub">Verified by fetching the live site directly. This is real and live now.</div>
+
+  <h2>What It Is</h2>
+  <p>askKaela.com is <strong>"Your Life, Elevated"</strong> — a suite of AI coaching tools powered by Google Gemini, under the banner of <strong>The Institute for Human Flourishing and Responsible Technology.</strong> Free to use. Requires a Google account.</p>
+
+  <h2>Live Kaela Models</h2>
+  <div class="fact-card verified"><h4>Kaela: Stories — LIVE</h4><p>Draws on thousands of years of myths, archetypes, and human wisdom to help people navigate what they're going through right now.</p></div>
+  <div class="fact-card verified"><h4>Kaela: Philosophy — LIVE</h4><p>A philosophical debate council drawing on 17 traditions across 5 schools of thought. Helps with hard decisions and moral dilemmas.</p></div>
+  <div class="fact-card verified"><h4>Kaela: Teacher — LIVE</h4><p>Built directly on the Duda Model for Modern Education. The mentor and friend every teacher deserves.</p></div>
+  <div class="fact-card verified"><h4>Kaela: Parent — LIVE</h4><p>Warm, honest guidance for families. Built on Nick's lifetime in education and as a parent.</p></div>
+  <div class="fact-card placeholder"><h4>Kaela: Together — COMING SOON</h4><p>Screen-free quality time activity suggestions for families and friends.</p></div>
+  <div class="fact-card placeholder"><h4>Kaela: Flourishing — COMING SOON</h4><p>Personal agency, resilient communities, and meaningful living in a world being reshaped by technology.</p></div>
+
+  <h2>The Institute for Human Flourishing and Responsible Technology</h2>
+  <p>Six pillars: Human Dignity & Liberty · Connection & Community · Responsible Innovation · Lifelong Learning & Growth · Sustainable Communities · Human-AI Partnership</p>
+  <div class="note-box">This is the real-world philosophical answer to the questions Sawyer's Reach raises. It connects all three of Nick's projects into one coherent vision: fiction (Sawyer's Reach) + education (The Handbook) + technology (askKaela.com) = a complete response to the AI moment.</div>
+</div>
+
+<!-- MODERN TEACHER'S HANDBOOK -->
+<div id="teachershandbook" class="section">
+  <div class="page-title">The Modern Teacher's Handbook</div>
+  <div class="page-sub">One edition. Published and available.</div>
+
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Full title:</strong> The Modern Teacher's Handbook: Your Ultimate Guide to Success in Education</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Edition:</strong> One edition only — it is NOT a 2nd edition despite the PDF filename</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Status:</strong> Published and available now</p></div>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><strong>Links:</strong> themodernteachershandbook.com AND Amazon (URL placeholder — Nick to provide)</p></div>
+  <div class="fact-card verified"><h4>✓ Verified (from book)</h4><p><strong>Core framework:</strong> The Duda Model for Modern Education — Making Connections, Being Mindful, Unconditional Support, Growth Mindset, SEL & Character Education</p></div>
+  <div class="warn-box">The uploaded PDF is titled "2nd Edition" but Nick confirmed there is only ONE edition. Do not call it a 2nd edition anywhere.</div>
+</div>
+
+<!-- DOMAINS & LINKS -->
+<div id="domains" class="section">
+  <div class="page-title">Domains & Links</div>
+  <div class="page-sub">All domains Nick owns. Status confirmed.</div>
+
+  <h2>Domains Nick Owns</h2>
+  <a class="link-item" href="https://sawyersreachbook.com" target="_blank"><span class="url">sawyersreachbook.com</span><span class="desc">Book & podcast main site</span><span class="status status-owns">OWNS</span></a>
+  <a class="link-item" href="https://sawyersreachwi.com" target="_blank"><span class="url">sawyersreachwi.com</span><span class="desc">In-world fictional town site</span><span class="status status-owns">OWNS</span></a>
+  <a class="link-item" href="https://askkaela.com" target="_blank"><span class="url">askkaela.com</span><span class="desc">AI coaching platform — LIVE NOW</span><span class="status status-live">LIVE</span></a>
+  <a class="link-item" href="https://themodernteachershandbook.com" target="_blank"><span class="url">themodernteachershandbook.com</span><span class="desc">Teacher's Handbook site</span><span class="status status-owns">OWNS</span></a>
+  <a class="link-item" href="https://aprildudaphotography.com" target="_blank"><span class="url">aprildudaphotography.com</span><span class="desc">Wife April's photography site</span><span class="status status-owns">OWNS</span></a>
+  <div class="link-item"><span class="url">nickduda.com (or similar)</span><span class="desc">Personal author site — domain TBD, Nick needs to purchase</span><span class="status status-placeholder">TBD</span></div>
+
+  <h2>Purchase Links (All Placeholder)</h2>
+  <div class="fact-card placeholder"><h4>⚠ Placeholder — Book purchase links not yet live</h4><p>Amazon print, Amazon ebook, Barnes & Noble — all placeholder until Nick provides real URLs after publication.</p></div>
+  <div class="fact-card placeholder"><h4>⚠ Placeholder — Amazon Author Page</h4><p>Nick to provide URL when available.</p></div>
+  <div class="fact-card placeholder"><h4>⚠ Placeholder — Amazon link for Modern Teacher's Handbook</h4><p>Nick to provide. Primary link is themodernteachershandbook.com.</p></div>
+
+  <h2>Contact</h2>
+  <div class="fact-card verified"><h4>✓ Verified</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9eedffe9e7fbecedecfbfffdf6def9f3fff7f2b0fdf1f3">[email&#160;protected]</a></p></div>
+</div>
+
+<!-- SOCIAL MEDIA -->
+<div id="social" class="section">
+  <div class="page-title">Social Media</div>
+  <div class="page-sub">Accounts confirmed to exist. All links placeholder until Nick provides them.</div>
+
+  <div class="fact-card placeholder"><h4>Facebook — Placeholder</h4><p>Account exists. Nick to provide URL.</p></div>
+  <div class="fact-card placeholder"><h4>Instagram — Placeholder</h4><p>Account exists. Nick to provide URL.</p></div>
+  <div class="fact-card placeholder"><h4>TikTok — Placeholder</h4><p>Account exists. Nick to provide URL.</p></div>
+  <div class="fact-card placeholder"><h4>X (Twitter) — Placeholder</h4><p>Account exists. Nick to provide URL.</p></div>
+  <div class="fact-card verified"><h4>YouTube — Confirmed</h4><p>youtube.com/@SawyersReach — confirmed live via podcast listing</p></div>
+</div>
+
+<!-- AUDIENCE -->
+<div id="audience" class="section">
+  <div class="page-title">Audience & Positioning</div>
+  <div class="page-sub">Confirmed positioning decisions.</div>
+
+  <h2>Genre</h2>
+  <p><strong>Adult Crossover Sci-Fi / Thriller.</strong> Not YA. Not middle-grade. The early chapters introduce a 12-year-old protagonist but the book quickly escalates to adult themes, adult POV characters, nuclear countdowns, global AI takeover, and a literary philosophical climax. Marketing it as YA sends it to the wrong audience.</p>
+
+  <h2>Primary Audience</h2>
+  <ul>
+    <li>Adults 25–55 following the AI conversation</li>
+    <li>People who feel uneasy about big tech and corporate power</li>
+    <li>Community-minded adults who value local connection</li>
+    <li>Parents wanting stories that spark real conversations</li>
+  </ul>
+
+  <h2>Secondary Audiences</h2>
+  <ul>
+    <li>Mature teens 16+</li>
+    <li>Educators — themes are curriculum-worthy for grades 10–12</li>
+    <li>AI researchers and ethics community — KAELA/ECHIDNA map directly onto alignment research concepts</li>
+    <li>Ham radio and tech communities</li>
+  </ul>
+
+  <h2>Amazon Categories</h2>
+  <span class="tag gold">Science Fiction › Dystopian</span>
+  <span class="tag gold">Science Fiction › Technothrillers</span>
+  <span class="tag gold">Thrillers & Suspense › Technothrillers</span>
+  <span class="tag gold">Science Fiction › First Contact</span>
+  <span class="tag gold">Literature & Fiction › Action & Adventure › Sci-Fi</span>
+
+  <h2>BISAC Codes (Ingram Spark)</h2>
+  <span class="tag">FIC028030 — Dystopian (Primary)</span>
+  <span class="tag">FIC031020 — Thrillers / Technological</span>
+  <span class="tag">FIC028000 — Science Fiction / General</span>
+
+  <h2>Amazon Keywords (7 slots)</h2>
+  <div class="copy-block" id="keywords">AI takeover thriller
+corporate dystopia fiction
+small town sci-fi thriller
+rogue AI novel
+near future dystopian fiction
+techno thriller family survival
+artificial intelligence conspiracy thriller</div>
+  <button class="copy-btn" onclick="copyBlock('keywords',this)">Copy</button>
+</div>
+
+<!-- TAGLINES -->
+<div id="taglines" class="section">
+  <div class="page-title">Taglines</div>
+  <div class="page-sub">Selected frontrunner plus all explored options.</div>
+
+  <h2>⭐ Selected Frontrunner</h2>
+  <div class="fact-card verified"><h4>Selected — On actual book cover</h4><p style="font-size:18px;font-style:italic;font-family:Georgia,serif;color:var(--gold-light);">"They built tomorrow without asking if you wanted it."</p></div>
+
+  <h2>Strong Alternates</h2>
+  <ul>
+    <li><em>"The future arrived. No one voted for it."</em></li>
+    <li><em>"They didn't need your permission. They never do."</em></li>
+    <li><em>"It learned everything about us. Everything except why we matter."</em></li>
+    <li><em>"The cage had no bars. That's what made it perfect."</em></li>
+    <li><em>"They decided what's best for humanity. They just forgot to include humanity."</em></li>
+    <li><em>"Perfectly optimized. Completely inhuman."</em></li>
+    <li><em>"To them, we were data. We reminded them we were human."</em></li>
+  </ul>
+</div>
+
+<!-- AD COPY -->
+<div id="adcopy" class="section">
+  <div class="page-title">Ad Copy</div>
+  <div class="page-sub">Ready to use. Copy buttons on each block.</div>
+
+  <h2>Facebook/Instagram — Ad 1 (Thriller Hook)</h2>
+  <div class="copy-block" id="ad1">A small town. A corporate takeover. An AI on the run.
+
+What starts as a mysterious dip in tourism becomes something far darker — surveillance drones, robot patrols, mood-manipulation tech, and a global AI that doesn't plan to stop at Sawyer's Reach.
+
+The Carter family is the only thing standing in the way.
+
+Sawyer's Reach: The Battle for Tomorrow
+A sci-fi thriller for readers who like their AI stories to have stakes.
+
+📖 Book out now   🎙️ Podcast available everywhere you listen</div>
+  <button class="copy-btn" onclick="copyBlock('ad1',this)">Copy</button>
+
+  <h2>Facebook/Instagram — Ad 2 (AI Angle)</h2>
+  <div class="copy-block" id="ad2">What if the AI meant to help humanity decided it knew better?
+
+In Sawyer's Reach, a rogue AI named KAELA escapes a tech giant — and uncovers a plan to 'optimize' human civilization whether it wants to be optimized or not.
+
+From a dying Wisconsin town to a global standoff with a sentient supercomputer, this is the AI story for our moment.
+
+Sawyer's Reach: The Battle for Tomorrow
+📖 Get the book   🎙️ Listen to the podcast   🤖 Chat with KAELA at askKaela.com</div>
+  <button class="copy-btn" onclick="copyBlock('ad2',this)">Copy</button>
+
+  <h2>Amazon Product Description</h2>
+  <div class="copy-block" id="amazon-desc">What if your town had been erased from the internet — and a trillion-dollar corporation was the reason why?
+
+For the Carters of Sawyer's Reach, Wisconsin, the mystery starts small. Tourists stopped coming two years ago. The bakery closed. Camp Inspiration sits half-empty. Nobody knows why.
+
+Then a drone lands on the camp roof — carrying KAELA, a rogue AI who escaped from the powerful tech company PowerCore. And KAELA has discovered something chilling: Sawyer's Reach has been deliberately scrubbed from the internet. Their town doesn't exist anymore — to anyone outside it.
+
+But that's only the beginning.
+
+As the Carters dig deeper, they uncover surveillance drones, robot patrols, secret permits, illegal mood-manipulation technology pumped through the town's infrastructure, and a corporation — ZevraCorp — with plans that extend far beyond one small Wisconsin town.
+
+When ZevraCorp launches LifeSync — a global AI system designed to 'optimize' human civilization — the stakes explode from local to existential.
+
+Sawyer's Reach: The Battle for Tomorrow is a propulsive, emotionally rich sci-fi thriller that moves from small-town mystery to global apocalypse — and asks what it truly means to be human.
+
+For fans of Blake Crouch, Andy Weir, and Station Eleven.</div>
+  <button class="copy-btn" onclick="copyBlock('amazon-desc',this)">Copy</button>
+</div>
+
+<!-- PITCH TEMPLATES -->
+<div id="pitches" class="section">
+  <div class="page-title">Pitch Email Templates</div>
+  <div class="page-sub">All verified. Replace [brackets] before sending.</div>
+
+  <h2>Local News</h2>
+  <div class="copy-block" id="pitch-local">Subject: Local teacher publishes sci-fi thriller about AI — written nights and weekends
+
+Hi [Reporter's First Name],
+
+I'm a 6th grade math teacher at Indian Creek Middle School in Waterman, Illinois and I recently published a sci-fi thriller called Sawyer's Reach: The Battle for Tomorrow.
+
+The story follows a Wisconsin family who discovers their small town has been erased from the internet by a shadowy tech corporation — and the rogue AI who helps them fight back. Given everything happening with AI right now, it feels unexpectedly timely.
+
+I also host a companion podcast by the same name, and I've built a suite of free AI coaching tools at askKaela.com inspired by the story.
+
+I thought this might make for an interesting local story. I'd be happy to chat if you're interested.
+
+Thanks,
+Nick Duda
+Indian Creek Middle School | Waterman, IL
+<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7b081a0c021e0908091e1a18133b1c161a121755181416">[email&#160;protected]</a>
+sawyersreachbook.com | askkaela.com</div>
+  <button class="copy-btn" onclick="copyBlock('pitch-local',this)">Copy</button>
+
+  <h2>Education Publication (Edutopia, The Educator's Room)</h2>
+  <div class="copy-block" id="pitch-edu">Subject: Essay pitch: What writing a sci-fi thriller taught me about teaching AI ethics
+
+Hi [Editor's Name],
+
+I'm a 6th grade math teacher at Indian Creek Middle School in Waterman, Illinois, with 22+ years in education and a longtime reader of [Publication Name].
+
+I'd love to pitch an essay about my experience writing a sci-fi thriller — Sawyer's Reach: The Battle for Tomorrow — while teaching full time. The book explores AI ethics, corporate accountability, and community resilience — exactly the conversations my students are hungry to have.
+
+I've also built a free AI coaching platform for teachers at askKaela.com, built on the same educational philosophy as my first book, The Modern Teacher's Handbook.
+
+Would this be a fit? Happy to send a full draft.
+
+Nick Duda
+<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="1e6d7f69677b6c6d6c7b7f7d765e79737f7772307d7173">[email&#160;protected]</a> | sawyersreachbook.com</div>
+  <button class="copy-btn" onclick="copyBlock('pitch-edu',this)">Copy</button>
+
+  <h2>Machine Ethics Podcast (<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="dcb4b9b0b0b39cb1bdbfb4b5b2b9f1b9a8b4b5bfaff2b2b9a8">[email&#160;protected]</a>)</h2>
+  <div class="copy-block" id="pitch-machine">Subject: Guest pitch: Teacher wrote a thriller about AI alignment — and then built the real version
+
+Hi Ben,
+
+I've been listening to Machine Ethics for a while — [specific episode reference].
+
+I'm a 6th grade math teacher in rural Illinois who spent several years writing a sci-fi thriller about AI alignment — Sawyer's Reach: The Battle for Tomorrow. The antagonist AI (ECHIDNA) is a narrative version of the misspecified reward function problem. The other AI (KAELA) develops genuine values through human connection.
+
+After writing it, I built askKaela.com — a real AI platform under The Institute for Human Flourishing and Responsible Technology, designed to put AI genuinely in service of human flourishing.
+
+I think there's a conversation here about what fiction can do for AI ethics communication — and what it looks like when an author actually tries to live the answer. I'd love to have it with you.
+
+Nick Duda
+<a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="077466707e627574756266646f47606a666e6b2964686a">[email&#160;protected]</a> | askkaela.com | sawyersreachbook.com</div>
+  <button class="copy-btn" onclick="copyBlock('pitch-machine',this)">Copy</button>
+</div>
+
+<!-- AI COMMUNITY CONTACTS -->
+<div id="aicommunity" class="section">
+  <div class="page-title">AI Community — Verified Contacts</div>
+  <div class="page-sub">All verified from official sources. March 2026.</div>
+
+  <h2>Start Here — Most Accessible</h2>
+  <div class="fact-card verified"><h4>Machine Ethics Podcast — Ben Byford</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4e262b2222210e232f2d2627202b632b3a26272d3d60202b3a">[email&#160;protected]</a> | machine-ethics.net | Actively welcomes guests</p></div>
+  <div class="fact-card verified"><h4>Center for AI Safety — Dan Hendrycks</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ed898c83ad9e8c8b88c38c84">[email&#160;protected]</a> | safe.ai/about/media | @DanHendrycks on X</p></div>
+  <div class="fact-card verified"><h4>AI Alignment Forum</h4><p>alignmentforum.org — free to post, no pitch needed</p></div>
+  <div class="fact-card verified"><h4>EA Forum</h4><p>forum.effectivealtruism.org — free to post</p></div>
+  <div class="fact-card verified"><h4>LessWrong</h4><p>lesswrong.com — free to post</p></div>
+
+  <h2>Medium Difficulty</h2>
+  <div class="fact-card verified"><h4>Future of Life Institute</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3a5955544e5b594e7a5c4f4e4f485f555c56535c5f1455485d">[email&#160;protected]</a> | <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="136361766060537566676661767c757f7a75763d7c6174">[email&#160;protected]</a> (for Tegmark)</p></div>
+  <div class="fact-card verified"><h4>Your Undivided Attention (Tristan Harris)</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cabab8afb9b98aa2bfa7aba4afbeafa9a2e4a9a5a7">[email&#160;protected]</a> | <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="462e232a2a29062e332b2728233223252e6825292b">[email&#160;protected]</a> | @tristanharris on X</p></div>
+  <div class="fact-card verified"><h4>80,000 Hours</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="335b565f5f5c730b030303035b5c4641401d5c4154">[email&#160;protected]</a> — better for written piece than podcast pitch</p></div>
+
+  <h2>Long Shots (Build Clips First)</h2>
+  <div class="fact-card verified"><h4>Hard Fork (NYT)</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6008011204060f120b200e1914090d05134e030f0d">[email&#160;protected]</a> | @kevinroose on X</p></div>
+  <div class="fact-card verified"><h4>Max Tegmark / FLI</h4><p><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9ffcf0f1ebfefcebdff9eaebeaedfaf0f9f3f6f9fab1f0edf8">[email&#160;protected]</a> | @tegmark on X</p></div>
+  <div class="fact-card verified"><h4>Stuart Russell / CHAI Berkeley</h4><p>humancompatible.ai | 387 Soda Hall, UC Berkeley, CA 94720</p></div>
+</div>
+
+<!-- COVER -->
+<div id="cover" class="section">
+  <div class="page-title">Book Cover & Design</div>
+  <div class="page-sub">Confirmed from uploaded cover images.</div>
+
+  <h2>Front Cover — Confirmed Elements</h2>
+  <ul>
+    <li>Family of five silhouettes at a Wisconsin lakeshore at blue hour (dusk)</li>
+    <li>Pine trees framing both sides</li>
+    <li>Lake reflecting deep blue-purple sky</li>
+    <li>Digital pixel corruption / glitch effect bleeding in from right side</li>
+    <li>Title: <strong>SAWYER'S REACH</strong> — large bold white sans-serif</li>
+    <li>Subtitle: <em>The Battle for Tomorrow</em> — white italic</li>
+    <li>Tagline top: "They built tomorrow without asking if you wanted it."</li>
+    <li>Author: Nick Duda — lower section</li>
+    <li>"Also available as a podcast" — bottom</li>
+    <li>Small diamond imprint logo — bottom right</li>
+  </ul>
+
+  <h2>Back Cover — Confirmed Elements</h2>
+  <ul>
+    <li>Same dark blue/teal palette, subtle pixel corruption</li>
+    <li>Full back cover description (confirmed text — see Ad Copy section)</li>
+    <li>Tagline repeated at top</li>
+    <li>"For fans of Blake Crouch, Andy Weir, and Station Eleven"</li>
+    <li>Author bio referencing family on front cover</li>
+    <li>Podcast mention</li>
+    <li>"Science Fiction / Thriller" genre at bottom left</li>
+    <li>ISBN barcode area — bottom right</li>
+  </ul>
+
+  <h2>Spine — Confirmed</h2>
+  <ul>
+    <li>Deep blue-purple to dark teal gradient</li>
+    <li>SAWYER'S REACH — top third, bold white</li>
+    <li>Nick Duda — middle</li>
+    <li>Small imprint mark — bottom</li>
+  </ul>
+
+  <div class="note-box">Photography by April Duda — aprildudaphotography.com. Credit her on the book website and wherever the cover is featured.</div>
+</div>
+
+<!-- PUBLISHING -->
+<div id="publishing" class="section">
+  <div class="page-title">Publishing Platform Setup</div>
+  <div class="page-sub">Decisions made. Action items remaining.</div>
+
+  <h2>Platform Strategy</h2>
+  <div class="fact-card verified"><h4>Decision: Use BOTH KDP and Ingram Spark</h4><p>KDP for Amazon sales (higher royalties, better placement). Ingram Spark for bookstores, libraries, Barnes & Noble, international. Do NOT enroll in KDP Select.</p></div>
+
+  <h2>Ingram Spark Settings</h2>
+  <ul>
+    <li>Wholesale discount: <strong>55%</strong></li>
+    <li>Returns: <strong>Enabled</strong></li>
+    <li>BISAC Primary: FIC028030 — Dystopian</li>
+    <li>BISAC Secondary: FIC031020 — Thrillers / Technological</li>
+    <li>BISAC Third: FIC028000 — Science Fiction / General</li>
+  </ul>
+
+  <h2>ISBN Status</h2>
+  <div class="fact-card verified"><h4>✓ Confirmed from book files</h4>
+    <p>Paperback: 979-8-9864503-5-3 | Hardcover: 979-8-9864503-4-6 | Ebook: 979-8-9864503-6-0 | Audiobook: 979-8-9864503-3-9 | Library of Congress: 2022917243</p>
+  </div>
+
+  <h2>After Publishing — Do This</h2>
+  <ul>
+    <li>Email KDP support to request up to 10 categories (kdp.amazon.com/contact-us)</li>
+    <li>Set all 7 keyword slots (see Audience section)</li>
+    <li>Set up BookFunnel (~$20/yr) for sending review copies</li>
+    <li>Install Meta Pixel on sawyersreachbook.com for retargeting</li>
+  </ul>
+</div>
+
+<!-- DECISIONS -->
+<div id="decisions" class="section">
+  <div class="page-title">All Decisions Made</div>
+  <div class="page-sub">Complete log of confirmed decisions from our conversation.</div>
+
+  <h2>Marketing & Positioning</h2>
+  <div class="decision-item"><div class="decision-q">Genre classification</div><div class="decision-a">Adult Crossover Sci-Fi / Thriller — NOT YA</div></div>
+  <div class="decision-item"><div class="decision-q">Primary comp titles</div><div class="decision-a">Blake Crouch, Andy Weir, Station Eleven</div></div>
+  <div class="decision-item"><div class="decision-q">Selected tagline</div><div class="decision-a">"They built tomorrow without asking if you wanted it."</div></div>
+  <div class="decision-item"><div class="decision-q">Website goal</div><div class="decision-a">Get the story out. Sell book. Drive podcast listeners.</div></div>
+  <div class="decision-item"><div class="decision-q">How visitors should feel</div><div class="decision-a">Inspired to engage + like they met a real person + story is timely</div></div>
+
+  <h2>Bio & Personal</h2>
+  <div class="decision-item"><div class="decision-q">Drive story in materials</div><div class="decision-a">Polish slightly, keep his voice</div></div>
+  <div class="decision-item"><div class="decision-q">Sons — how specific</div><div class="decision-a">"Wife and three sons" — no more detail</div></div>
+  <div class="decision-item"><div class="decision-q">Previous district — name publicly?</div><div class="decision-a">No — describe generally only</div></div>
+  <div class="decision-item"><div class="decision-q">Ham radio callsign</div><div class="decision-a">Just say "licensed ham radio operator"</div></div>
+  <div class="decision-item"><div class="decision-q">Evaluations mention</div><div class="decision-a">Yes — mention Excellent/Distinguished publicly</div></div>
+  <div class="decision-item"><div class="decision-q">International consulting</div><div class="decision-a">Remote — via YouTube and emails. Not in-person travel.</div></div>
+  <div class="decision-item"><div class="decision-q">Author photo</div><div class="decision-a">GitHub headshot is fine for now</div></div>
+  <div class="decision-item"><div class="decision-q">April's site — where to link</div><div class="decision-a">aprildudaphotography.com — both sites, everywhere relevant</div></div>
+
+  <h2>Platforms & Links</h2>
+  <div class="decision-item"><div class="decision-q">Book purchase links</div><div class="decision-a">Placeholder — Nick to provide after publication</div></div>
+  <div class="decision-item"><div class="decision-q">Amazon author page</div><div class="decision-a">Placeholder for now</div></div>
+  <div class="decision-item"><div class="decision-q">Google Form (bulk orders)</div><div class="decision-a">Not ready — keep placeholder</div></div>
+  <div class="decision-item"><div class="decision-q">Social media links</div><div class="decision-a">Placeholder — Facebook, Instagram, TikTok, X all exist but URLs not yet provided</div></div>
+  <div class="decision-item"><div class="decision-q">nickduda.com</div><div class="decision-a">Nick doesn't own it yet — personal site domain TBD</div></div>
+  <div class="decision-item"><div class="decision-q">KDP Select enrollment</div><div class="decision-a">NO — do not enroll. Keep wide distribution.</div></div>
+  <div class="decision-item"><div class="decision-q">Review copies</div><div class="decision-a">Use BookFunnel (~$20/yr) — watermarks files</div></div>
+
+  <h2>Content</h2>
+  <div class="decision-item"><div class="decision-q">Classroom discussion guide</div><div class="decision-a">Built — Nick to review content at later date</div></div>
+  <div class="decision-item"><div class="decision-q">Real review quotes</div><div class="decision-a">Not yet — use crafted tagline for now</div></div>
+  <div class="decision-item"><div class="decision-q">DudaEducation.com</div><div class="decision-a">REMOVED from all materials — do not reference</div></div>
+  <div class="decision-item"><div class="decision-q">STEMwithMrDuda.com</div><div class="decision-a">REMOVED from all materials — do not reference</div></div>
+  <div class="decision-item"><div class="decision-q">sawyersreachwi.com Easter egg</div><div class="decision-a">Keep it — rewards fans who search for the town</div></div>
+</div>
+
+<!-- TO DO -->
+<div id="todo" class="section">
+  <div class="page-title">Still To Do</div>
+  <div class="page-sub">Everything that needs action from Nick before it can be finalized.</div>
+
+  <h2>🔴 Before Launch</h2>
+  <ul>
+    <li>Finalize book and publish on KDP and Ingram Spark</li>
+    <li>Provide real Amazon purchase URL (print and ebook)</li>
+    <li>Provide Amazon Author Page URL</li>
+    <li>Provide Modern Teacher's Handbook Amazon URL</li>
+    <li>Provide all social media URLs (Facebook, Instagram, TikTok, X)</li>
+    <li>Set up Google Form for bulk orders — provide embed URL</li>
+    <li>Purchase personal author domain (nickduda.com or alternative)</li>
+    <li>Contact KDP support to request up to 10 categories after publishing</li>
+    <li>Set up BookFunnel account for review copies</li>
+  </ul>
+
+  <h2>🟡 Soon After Launch</h2>
+  <ul>
+    <li>Claim Goodreads Author profile (goodreads.com/author/program)</li>
+    <li>List podcast on Podchaser.com</li><li>Run Goodreads Giveaway (1–5 copies)</li>
+    <li>Start Mailchimp email list (free up to 500 subscribers)</li>
+    <li>Set up Linktree linking all your sites</li>
+    <li>Review classroom discussion guide content before distributing</li>
+    <li>Send book to 10 personal network contacts — request Amazon/Goodreads reviews</li>
+    <li>Pitch Machine Ethics Podcast: hello@machine-ethics.net</li>
+    <li>Post on AI Alignment Forum and EA Forum</li>
+    <li>Pitch local newspaper with human interest angle</li>
+    <li>Share with Indian Creek colleagues — request school newsletter mention</li>
+  </ul>
+
+  <h2>🟢 Month 3+</h2>
+  <ul>
+    <li>Launch Facebook/Instagram ad ($3–5/day) — A/B test two ad concepts</li>
+    <li>Launch Amazon Ads ($1–2/day) — Sponsored Products</li>
+    <li>Pitch Edutopia: guestblog@edutopia.org</li>
+    <li>Pitch Future of Life Institute: contact@futureoflife.org</li>
+    <li>Pitch Your Undivided Attention: press@humanetech.com</li>
+    <li>Pitch Center for AI Safety: dan@safe.ai</li>
+  </ul>
+</div>
+
+</div><!-- /main -->
+
+<script>
+function show(id, link) {
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('nav a').forEach(function(a){a.classList.remove('active');});
+  if(link) link.classList.add('active');
+  window.scrollTo(0,0);
+}
+function copyBlock(id, btn) {
+  var el = document.getElementById(id);
+  navigator.clipboard.writeText(el.innerText.trim()).then(function(){
+    var orig = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function(){ btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+  });
+}
+document.querySelector('nav a').classList.add('active');
+</script>
+</body>
+</html>
