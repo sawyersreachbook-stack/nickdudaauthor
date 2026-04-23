@@ -143,6 +143,13 @@ nav {
   .hero-inner { grid-template-columns: 1fr; }
   .hero-photo { max-width: 140px; }
 }
+@media(max-width: 480px) {
+  .hero { padding: 44px 5vw; }
+  .buy-row { flex-direction: column; }
+  .buy-btn { justify-content: center; }
+  .book-card { padding: 20px; }
+  .sec { padding: 52px 5vw; }
+}
 
 /* ── SHARED SECTION ── */
 .sec { padding: 72px 5vw; }
@@ -185,6 +192,8 @@ nav {
 }
 .book-card:last-child { margin-bottom: 0; }
 .book-cover-wrap { position: relative; }
+.book-cover-dark { background: var(--ink2); border-radius: 3px; }
+.book-cover-dark img { border-radius: 3px; }
 .book-cover-wrap img { width: 100%; border-radius: 3px; box-shadow: 0 12px 40px rgba(0,0,0,.2); }
 .book-badge {
   position: absolute;
@@ -262,8 +271,8 @@ nav {
 .buy-btn-secondary:hover { border-color: var(--teal); color: var(--teal); }
 .buy-btn-dim { background: var(--cream); color: var(--muted); border: 1px solid var(--border); opacity: .5; cursor: default; pointer-events: none; }
 @media(max-width: 640px) {
-  .book-card { grid-template-columns: 1fr; }
-  .book-cover-wrap { max-width: 160px; }
+  .book-card { grid-template-columns: 1fr; gap: 24px; }
+  .book-cover-wrap { max-width: 200px; margin: 0 auto; }
 }
 
 /* ── PROJECTS ── */
@@ -449,7 +458,7 @@ footer {
 
     <!-- Sawyer's Reach -->
     <div class="book-card reveal d1">
-      <div class="book-cover-wrap">
+      <div class="book-cover-wrap book-cover-dark">
         <div class="book-badge">New Release</div>
         <img src="https://sawyersreachbook.com/images/sawyers-reach-cover.png" alt="Sawyer's Reach: The Battle for Tomorrow">
       </div>
